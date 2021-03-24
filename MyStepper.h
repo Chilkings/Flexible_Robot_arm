@@ -9,21 +9,23 @@ class Stepper {
 
     // 设置步进电机移动速度
     void setSpeed(long whatSpeed);
-
+    
     //步进电机步进 可正可负
     void step(int number_of_steps);
 
     //释放对电机的控制，使其可以自由移动
     void free(void);
-
+    int Get_total_step(void);
+    int home(void);
     int version(void);
+    
 
   private:
   
     int direction;            // Direction of rotation
     unsigned long step_delay; // delay between steps, in ms, based on speed
     int number_of_steps;      // total number of steps this motor can take
-
+    int total_step;
     // motor pin numbers:
     int PUL_pin;
     int DIR_pin;
@@ -31,4 +33,3 @@ class Stepper {
 };
 
 #endif
-

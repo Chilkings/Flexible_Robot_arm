@@ -17,7 +17,8 @@ Stepper::Stepper(int number_of_steps, int PUL_pin, int DIR_pin,int ENA_pin)
   this->number_of_steps = number_of_steps; // 转一圈的总步长
   this->step_delay = 50;                   //设置默认速度
   this->direction = 0;                     //设置默认方向 正转
-
+  this->total_step = 0;
+  
   // Arduino pins for the motor control connection:
   this->PUL_pin = PUL_pin;
   this->DIR_pin = DIR_pin;
@@ -55,9 +56,11 @@ void Stepper::step(int steps_to_move)
 {
   int steps_left = abs(steps_to_move);  // how many steps to take
 
+  this->total_step += steps_to_move;
+
   if (steps_to_move > 0) { this->direction = 1; }
   if (steps_to_move < 0) { this->direction = 0; }
-
+  
   digitalWrite(this->ENA_pin, LOW);               //使能控制IO
   digitalWrite(this->DIR_pin, this->direction);  //设置转动方向
 
@@ -71,7 +74,18 @@ void Stepper::step(int steps_to_move)
   
 }
 
+int Stepper::Get_total_step(void)
+{
+    return this->total_step;
+}
 
+int Stepper::home(void)
+{
+  
+  step(-this->total_step);
+//  return this->total_step;
+  this->total_step=0;
+}
 
 /*
   version() returns the version of the library:
